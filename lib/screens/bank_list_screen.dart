@@ -18,14 +18,25 @@ class BankListScreen extends StatefulWidget {
 }
 
 class _BankListScreenState extends State<BankListScreen> {
+  double screenHeight = 0;
+  double screenWidth = 0;
+
+  bool startAnimation = false;
   @override
   void initState() {
     super.initState();
     Provider.of<BankController>(context, listen: false).getBankList();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      setState(() {
+        startAnimation = true;
+      });
+    });
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {    
+    screenHeight = MediaQuery.of(context).size.height;
+    screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: myAppBar(),
       body: myBody(),
@@ -131,7 +142,26 @@ class _BankListScreenState extends State<BankListScreen> {
                 itemCount: context.watch<BankController>().banks.length,
                 itemBuilder: (context, index) {
                   Bank bank = context.watch<BankController>().banks[index];
-                  return Padding(
+                  return listItem(context, bank,index);
+                },
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  AnimatedContainer listItem(BuildContext context, Bank bank,int index) {
+     return AnimatedContainer(
+      height: screenHeight*.1*1.1,
+      width: screenWidth,
+      curve: Curves.easeInOut,
+      duration: Duration(milliseconds: 300 + (index * 200)),
+      transform: Matrix4.translationValues(startAnimation ? 0 : screenWidth, 0, 0),
+      margin: const EdgeInsets.only(bottom: 6,),
+      decoration: BoxDecoration( color: Colors.white,borderRadius: BorderRadius.circular(10), ),
+      child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
                       decoration: boxDecoration,
@@ -165,13 +195,7 @@ class _BankListScreenState extends State<BankListScreen> {
                         subtitle: Text(BankListConstant.sendMoney),
                       ),
                     ),
-                  );
-                },
-              ),
-            )
-          ],
-        ),
-      ),
+                  ),
     );
   }
 
@@ -181,8 +205,6 @@ class _BankListScreenState extends State<BankListScreen> {
       selectedIndex = index;
     });
   }
-
-
 
   
 }
