@@ -3,6 +3,7 @@ import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:sanalira_flutter_application_test/extensions/hive/user_hive.dart';
 import 'package:sanalira_flutter_application_test/models/user.dart';
 import 'package:sanalira_flutter_application_test/extensions/widget_decorations.dart';
+import 'package:sanalira_flutter_application_test/services/user_service.dart';
 import '../core/methods/validators.dart';
 import '../extensions/text_form_field_style.dart';
 
@@ -16,10 +17,12 @@ class RegisterScreen extends StatefulWidget {
 class _RegisterScreenState extends State<RegisterScreen> {
   bool checkBoxValue = false;
   var phoneNumber = TextEditingController();
+  String? password;
   final formKey = GlobalKey<FormState>();
   String initialCountry = 'TR';
   PhoneNumber number = PhoneNumber(phoneNumber: "+908503047172",isoCode: 'TR');
   var user=User();
+  var userService=UserService();
 
   @override
   Widget build(BuildContext context) {
@@ -97,9 +100,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Container(
-                            // color: Colors.red,
                             decoration: BoxDecoration(
-                              //color: Colors.red,
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Column(
@@ -111,7 +112,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     style: textFormFieldStyle,                        
                                     decoration: textFiledDecoration,
                                     maxLength: 50,
-
+                                  
                                     validator: (val) {
                                       if (val.toString().length <= 2) {
                                         return "İsminiz 2 karakterden büyük olmalı";
@@ -148,6 +149,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                    style: textFormFieldStyle,  
                                     decoration: textFiledDecoration,
                                     maxLength: 20,
+                                    onSaved: (val)=>password=val.toString(),
                                     validator: (val) {
                                       if (!isPasswordValid(val.toString()))
                                         return "Şifreniz büyük/küçük harf, sayı ve özel karakter içermelidir.";
@@ -237,12 +239,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   child: ElevatedButton(
                                     style: ButtonStyle(
                                         backgroundColor:
-                                            MaterialStateProperty.all(
-                                                Colors.green)),
+                                            MaterialStateProperty.all(Color(0xff66CC78))),
                                     child: Text("Giriş Yap"),
-                                    onPressed: () {
+                                    onPressed: () async{
                                       if(formKey.currentState!.validate()&&checkBoxValue){
                                     formKey.currentState!.save();
+                                        await userService.creteUser(user,password!);
+
                                          UserHive.setUser(user);
                                          Navigator.pushNamed(context, "/");
                                       }

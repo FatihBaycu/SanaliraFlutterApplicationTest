@@ -1,36 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:sanalira_flutter_application_test/constants/bottom_navigator_constant.dart';
 
 BottomNavigationBar myBottomNavigatorBar(int selectedIndex,void Function(int)? onTapFunc) { 
     return BottomNavigationBar(
       iconSize: 30,
       showSelectedLabels: false,
 showUnselectedLabels: false,
-      backgroundColor: Colors.red,
-      unselectedItemColor: Colors.black,
-      items: const <BottomNavigationBarItem>[
+      backgroundColor: BottomNavigatorConstant.backgroundColor,
+      unselectedItemColor: BottomNavigatorConstant.unselectedItemColor,
+      items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          icon: Icon(Icons.house_outlined),
-          label: 'Home',
+          label: BottomNavigatorConstant.home,
+          icon: SvgPicture.asset(BottomNavigatorConstant.homeIcon),
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.task),
-          label: 'Business',
+          icon: SvgPicture.asset(BottomNavigatorConstant.transactionIcon),
+          label: BottomNavigatorConstant.transaction,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.view_compact_alt),
-          label: 'School',
+          icon: Stack(
+            alignment: Alignment.center,
+            children: [
+            SvgPicture.asset(BottomNavigatorConstant.mainIcon),
+            SvgPicture.asset(BottomNavigatorConstant.mainElementsIcon),
+          ], ),
+          label:BottomNavigatorConstant.main,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.credit_card_outlined),
-          label: 'Settings',
+          icon: SvgPicture.asset(BottomNavigatorConstant.creditCardIcon),
+          label: BottomNavigatorConstant.creditCard,
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.man_outlined),
-          label: 'Settings',
+          icon: SvgPicture.asset(BottomNavigatorConstant.userIcon),
+          label: BottomNavigatorConstant.user,
         ),
       ],
       currentIndex: selectedIndex,
-      selectedItemColor: Colors.green,
+      selectedItemColor: BottomNavigatorConstant.selectedItemColor,
      onTap: onTapFunc,
     );
   }

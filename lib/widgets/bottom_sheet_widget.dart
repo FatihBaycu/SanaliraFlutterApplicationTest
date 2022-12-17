@@ -1,38 +1,43 @@
  import 'package:clipboard/clipboard.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:sanalira_flutter_application_test/constants/bottom_sheet_constant.dart';
 import '../models/bank.dart';
+
   var fullNameController = TextEditingController();
 
 Future<void> bottomSheet(context,Bank bank) {
     return showModalBottomSheet<void>(
+      shape: const RoundedRectangleBorder(
+     borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20)),
+  ),
+  backgroundColor: Colors.white,
       context: context,
       builder: (BuildContext context) {
         return SingleChildScrollView(
-          child: SizedBox(
-            height: 500,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      const Align(alignment: Alignment.centerLeft,child: const Text("Hesap Adı")),
-                      bottomSheetTextField(bank.bankAccountName!),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SvgPicture.asset(BottomSheetConstant.dividerLine,alignment: Alignment.topCenter),
+                    BottomSheetTextFieldLabel(BottomSheetConstant.accountName),
+                    bottomSheetTextField(bank.bankAccountName!),
         
-                      const Align(alignment: Alignment.centerLeft,child: const Text("IBAN")),
-                      bottomSheetTextField(bank.bankIban!),
+                    BottomSheetTextFieldLabel(BottomSheetConstant.iban),
+                    bottomSheetTextField(bank.bankIban!),
         
-                      const Align(alignment: Alignment.centerLeft,child: const Text("Açıklama")),
-                      bottomSheetTextField(bank.descriptionNo!),
+                    BottomSheetTextFieldLabel(BottomSheetConstant.description),
+                    bottomSheetTextField(bank.descriptionNo!),
         
-                      bottomSheetField("Lütfen havale yaparken açıklama alanına yukraıdaki kodu yazmayı unutmayın.",Colors.black),
-                      bottomSheetField("Eksik bilgi girilmesi sebebiyle tutarın askıda kalması durumunda, ücret kesintisi yapılacaktır.",Colors.red),
-                      
-                    ],
-                  ),
+                    bottomSheetField(BottomSheetConstant.dontForget,BottomSheetConstant.paleText),
+                    bottomSheetField(BottomSheetConstant.wrongInfo,BottomSheetConstant.redText,BottomSheetConstant.redTextBackground),
+                    
+                  ],
                 ),
               ),
             ),
@@ -42,20 +47,29 @@ Future<void> bottomSheet(context,Bank bank) {
     );
   }
 
+class BottomSheetTextFieldLabel extends StatelessWidget {
+  String field;
+  BottomSheetTextFieldLabel(this.field);
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(alignment: Alignment.centerLeft,child: Text(field,style: GoogleFonts.inter(color:BottomSheetConstant.paleText,fontSize:10)));
+  }
+}
   
-  Padding bottomSheetField(String text,Color textColor) {
+  Padding bottomSheetField(String text,Color textColor,[Color? backgroundColor]) {
     return Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
                        decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Color.fromARGB(243, 244, 246, 255),
+                color: backgroundColor!=null?backgroundColor:BottomSheetConstant.defaultTextBackground,
                 boxShadow:const  [
                   BoxShadow(spreadRadius: 3, color: Colors.white),
                 ],
               ),
                       child: SizedBox(
-                        height: 60,
+                        height: 50,
                         width: double.infinity,
                         child: Align(
                           alignment: Alignment.center,
@@ -63,7 +77,7 @@ Future<void> bottomSheet(context,Bank bank) {
                             text,
                             style: TextStyle(
                               color: textColor,
-                              fontSize: 12),
+                              fontSize: 11),
                             textAlign: TextAlign.center,
                           
                             ),
@@ -76,24 +90,26 @@ Future<void> bottomSheet(context,Bank bank) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
-        height: 56,
+        height: 46,
         child: TextFormField(
                         controller: fullNameController,
                         enabled: false,
                         decoration:  InputDecoration(
                             filled: true,
-                            fillColor: Color.fromARGB(243, 244, 246, 255), //
+                            fillColor: BottomSheetConstant.defaultTextBackground,
                             border: OutlineInputBorder(
                               borderSide: const BorderSide(
                                   width: 3,
-                                  color: Colors.transparent), //<-- SEE HERE
-                              borderRadius: BorderRadius.circular(20.0),
+                                  color: Colors.transparent),
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
                             alignLabelWithHint: true,
                             hintText: val,
+                            isDense: true,
                             suffixIcon: IconButton(
-                              icon:Icon(Icons.copy),
+                              icon:Icon(Icons.copy,size: 16,),
                               onPressed: () {
+                                print("copied");
                                 FlutterClipboard.copy(val).then(( value ) => print('copied'));
                               },
                               color: Colors.green,

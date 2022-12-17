@@ -1,3 +1,4 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-TextStyle get textFormFieldStyle=>const TextStyle(color: Colors.black,fontWeight: FontWeight.bold);
+get textFormFieldStyle=>GoogleFonts.inter(color: Colors.black,fontWeight: FontWeight.bold);

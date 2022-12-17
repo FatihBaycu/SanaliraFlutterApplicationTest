@@ -1,6 +1,8 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:sanalira_flutter_application_test/constants/bank_list_constant.dart';
 import 'package:sanalira_flutter_application_test/controller/bank_controller.dart';
 import 'package:sanalira_flutter_application_test/extensions/widget_decorations.dart';
 import '../core/methods/get_bank_image.dart';
@@ -27,7 +29,7 @@ class _BankListScreenState extends State<BankListScreen> {
     return Scaffold(
       appBar: myAppBar(),
       body: myBody(),
-      backgroundColor: Colors.white,
+      backgroundColor: BankListConstant.scaffoldBackgroundColor,
       bottomNavigationBar: myBottomNavigatorBar(selectedIndex,_onItemTapped),
     );
   }
@@ -45,8 +47,7 @@ class _BankListScreenState extends State<BankListScreen> {
             ],
           ),
           child: IconButton(
-            color: Colors.red,
-            icon: Icon(Icons.arrow_back, color: Colors.black),
+            icon: SvgPicture.asset(BankListConstant.leftArrow),
             onPressed: () => Navigator.pushNamed(context, "register")
           ),
         ),
@@ -64,10 +65,14 @@ class _BankListScreenState extends State<BankListScreen> {
             ),
             child: IconButton(
                 onPressed: () {},
-                icon: const Icon(
-                  Icons.notification_add,
-                  color: Colors.black,
-                )),
+                icon:Stack(
+                  alignment: Alignment.topRight,
+                  children: [
+                    SvgPicture.asset(BankListConstant.bell),
+                    SvgPicture.asset(BankListConstant.greenCircle),
+                  ],
+                ),
+),
           ),
         ),
         Padding(
@@ -82,47 +87,44 @@ class _BankListScreenState extends State<BankListScreen> {
               ),
               child: IconButton(
                   onPressed: () {},
-                  icon: const Icon(
-                    Icons.settings,
-                    color: Colors.black,
-                  ))),
+                 icon:SvgPicture.asset(BankListConstant.settings),
+
+)),
         ),
       ],
-      backgroundColor: Color.fromARGB(243,244,246,255),
+      backgroundColor: BankListConstant.appBarBackgroundColor,
       elevation: 0,
     );
   }
 
   Widget myBody() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        color: Color.fromARGB(243, 244, 246, 255),
+    return Container(
+      color: BankListConstant.containerColor,
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
                 decoration: boxDecoration,
-                child: const ListTile(
-                    leading: CircleAvatar(
-                        backgroundImage:
-                            AssetImage("assets/turk_bayragi.webp")),
-                    title: Text("Türk Lirası",
+                child:  ListTile(
+                    leading: Padding(
+                      padding: const EdgeInsets.only(top:8.0),
+                      child: SvgPicture.asset(BankListConstant.turkBayragi),
+                    ),
+                    title: Text(BankListConstant.turkLirasi,
                         style: TextStyle(fontWeight: FontWeight.bold)),
-                    subtitle: Text("TL"),
-                    trailing: Text(
-                      "234 ₺",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    subtitle: Text(BankListConstant.tl),
+                    trailing: Text( BankListConstant.money,style:TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     )),
               ),
             ),
-            const Padding(
-              padding:  EdgeInsets.all(8.0),
+             Padding(
+              padding: const EdgeInsets.all(8.0),
               child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("Türk Lirası yatırmak için banka seçiniz.")),
+                  child: Text(BankListConstant.selectBank)),
             ),
             Expanded(
               child: ListView.builder(
@@ -160,7 +162,7 @@ class _BankListScreenState extends State<BankListScreen> {
                           bank.bankName!,
                           style: const TextStyle(fontWeight: FontWeight.bold),
                         ),
-                        subtitle: Text("Havale / EFT ile para gönderin"),
+                        subtitle: Text(BankListConstant.sendMoney),
                       ),
                     ),
                   );
@@ -173,7 +175,7 @@ class _BankListScreenState extends State<BankListScreen> {
     );
   }
 
-    int selectedIndex=0;
+    int selectedIndex=2;
     void _onItemTapped(int index) {
     setState(() {
       selectedIndex = index;

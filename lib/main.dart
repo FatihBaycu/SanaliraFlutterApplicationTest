@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -21,6 +22,10 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 void main() async{
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   HttpOverrides.global =  MyHttpOverrides();
   await myHives();
 
@@ -41,7 +46,6 @@ myHives()async{
   await Hive.openBox("user");
 }
 
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -53,6 +57,7 @@ class MyApp extends StatelessWidget {
         "/":(context) => const BankListScreen(),
         "register":(context) => const RegisterScreen()
       },
+    
       initialRoute: UserHive.getUser().email!=null?"/":"register",
       theme: ThemeData(primarySwatch: Colors.blue),
     );

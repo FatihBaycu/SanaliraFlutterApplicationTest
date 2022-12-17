@@ -10,7 +10,7 @@ BoxDecoration get boxDecoration => BoxDecoration(
 
 InputDecoration get textFiledDecoration => InputDecoration(
       filled: true,
-      fillColor: const Color.fromARGB(243, 244, 246, 255),
+      fillColor:  Color(0xffF3F4F6),
       border: OutlineInputBorder(
         borderSide: const BorderSide(width: 3, color: Colors.transparent),
         borderRadius: BorderRadius.circular(10.0),
