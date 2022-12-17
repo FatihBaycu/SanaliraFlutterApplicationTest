@@ -1,10 +1,21 @@
 # sanalira_flutter_application_test
 
+![newTheme](https://github.com/FatihBaycu/SanaliraFlutterApplicationTest/blob/main/lib/screenshots/bank_list_screen.png)
+![newPhoto](https://github.com/FatihBaycu/SanaliraFlutterApplicationTest/blob/main/lib/screenshots/bottom_show_modal.png)
+![newPhoto](https://github.com/FatihBaycu/SanaliraFlutterApplicationTest/blob/main/lib/screenshots/register_screen.png)
+![newPhoto](https://github.com/FatihBaycu/SanaliraFlutterApplicationTest/blob/main/lib/screenshots/register_screen_error.png)
+
+
 A new Flutter project.
 
 ## Getting Started
 
 This project is a starting point for a Flutter application.
+
+- open terminal
+- $ `flutter pub get`
+- $ `flutter run`
+- You can write a project and run it.
 
 A few resources to get you started if this is your first Flutter project:
 
